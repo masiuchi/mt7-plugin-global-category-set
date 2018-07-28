@@ -1,0 +1,49 @@
+name: GlobalCategorySet
+version: 0.03
+description: <__trans phrase="Enable to create category set in system scope.">
+plugin_link: https://github.com/masiuchi/mt7-plugin-global-category-set
+author_name: Masahiro IUCHI
+author_link: https://github.com/masiuchi
+
+applications:
+  cms:
+    callbacks:
+      cms_pre_load_filtered_list.category_set: $GlobalCategorySet::MT::Plugin::GlobalCategorySet::Callback::cms_pre_load_filtered_list
+    menus:
+      category_set:manage:
+        view:
+          - system
+          - website
+          - blog
+      category_set:create:
+        view:
+          - system
+          - website
+          - blog
+    methods:
+      view_category:
+        code: $GlobalCategorySet::MT::Plugin::GlobalCategorySet::CMS::view_category
+        condition: sub { !shift->param('blog_id') }
+
+callbacks:
+  init_app: $GlobalCategorySet::MT::Plugin::GlobalCategorySet::Callback::init_app
+
+content_field_types:
+  categories:
+    field_html_params: $GlobalCategorySet::MT::Plugin::GlobalCategorySet::ContentFieldType::field_html_params
+    field_type_validation_handler: $GlobalCategorySet::MT::Plugin::GlobalCategorySet::ContentFieldType::field_type_validation_handler
+    options_html_params: $GlobalCategorySet::MT::Plugin::GlobalCategorySet::ContentFieldType::options_html_params
+    options_validation_handler: $GlobalCategorySet::MT::Plugin::GlobalCategorySet::ContentFieldType::options_validation_handler
+
+listing_screens:
+  category:
+    view:
+      - system
+      - website
+      - blog
+  category_set:
+    view:
+      - system
+      - website
+      - blog
+
